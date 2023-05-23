@@ -1,0 +1,23 @@
+.navBarCont{
+  width: 100%;
+  background-color: #fea8bd;
+  font-family: 'Raleway', sans-serif;
+}
+.cont{
+  display: flex;
+  width: 100%;
+}
+.linksCont{
+  justify-content: flex-end;
+}
+.linkCont{
+  margin-right: 0;
+  gap: 15px;
+}
+.link{
+  font-size: 1.3rem !important;
+  color: #fff!important;
+}
+.link:hover{
+  font-weight: 600 !important;
+}
