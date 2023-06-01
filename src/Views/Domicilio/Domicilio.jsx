@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import styles from "./Domicilio.module.css"
+import NavBar from "../../components/Navbar/Navbar";
+import Footer from "../../components/Footer/Footer";
+import Button from "react-bootstrap/Button";
 const Domicilio = () => {
   const userId = localStorage.getItem("userId");
     
@@ -27,16 +29,17 @@ const Domicilio = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await axios.post(`http://localhost:3001/Address/${userId}`, form)
-    Navigate("/profile");
+    Navigate("/misDomicilios");
   };
 
   return (
-    <div>
-      <section>
+    <div className={styles.cont}>
+      <NavBar />
+      <section className={styles.formCont}>
         <h2>Agregar Domicilio</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <div>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputsCont}>
+            <div className={styles.labelCont}>
               <label htmlFor="">Calle: </label>
               <input
                 type="text"
@@ -45,7 +48,7 @@ const Domicilio = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className={styles.labelCont}>
               <label htmlFor="">número: </label>
               <input
                 type="text"
@@ -54,7 +57,7 @@ const Domicilio = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className={styles.labelCont}>
               <label htmlFor="">Código postal: </label>
               <input
                 type="text"
@@ -63,7 +66,7 @@ const Domicilio = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className={styles.labelCont}>
               <label htmlFor="">Provincia: </label>
               <input
                 type="text"
@@ -72,7 +75,7 @@ const Domicilio = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className={styles.labelCont}>
               <label htmlFor="">Ciudad: </label>
               <input
                 type="text"
@@ -81,7 +84,7 @@ const Domicilio = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className={styles.labelCont}>
               <label htmlFor="">Telefono de contacto: </label>
               <input
                 type="text"
@@ -90,21 +93,18 @@ const Domicilio = () => {
                 onChange={handleChange}
               />
             </div>
-            <div>
-              <label htmlFor="">Localidad: </label>
-              <input
-                type="text"
-                name="location"
-                placeholder="localidad"
-                onChange={handleChange}
-              />
-            </div>
           </div>
           <div>
-            <button type="submit">Agregar domicilio</button>
+            <Button variant="primary" type="button" onClick={()=>Navigate(-1)}>
+                Volver
+            </Button>{" "}
+            <Button variant="primary" type="submit" disabled={!form.street || !form.city || !form.number || !form.postalCode || !form.province || !form.telephoneContact}>
+              Agregar domicilio
+            </Button>{" "}
           </div>
         </form>
       </section>
+      <Footer />
     </div>
   );
 };

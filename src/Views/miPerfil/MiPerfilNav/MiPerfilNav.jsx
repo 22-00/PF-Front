@@ -1,14 +1,37 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./MiPerfilNav.module.css"
+import styles from "./MiPerfilNav.module.css";
 import Swal from "sweetalert2";
 import { HiPencilAlt } from "react-icons/hi";
-import axios from 'axios';
+import axios from "axios";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "../../../redux/actions/index";
+import Spinner from 'react-bootstrap/Spinner';
 
-
-
-const MiPerfilNav = ({ perfil, setPerfil,setPage,id }) => {
+const MiPerfilNav = () => {
+  const storedToken = localStorage.getItem("token");
+  const id = localStorage.getItem("userId");
   const Navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userData);
+  const [perfil, setPerfil] = useState(userData)
+  const [image, setImage] = useState(userData.image)
+  
+  const data = Object.keys(userData).length;
+  useEffect(() => {
+    if (!data) { 
+      dispatch(getUserData(storedToken, id));
+    }
+    if (data && userData !== perfil) {
+      setPerfil(userData);
+      setImage(userData.image);
+    }
+  },[dispatch, userData])
+
+
+
   const logoutButton = () => {
     Swal.fire({
       title: "Estas seguro de querer salir",
@@ -23,63 +46,61 @@ const MiPerfilNav = ({ perfil, setPerfil,setPage,id }) => {
       }
     });
   };
-  const handleChange = (e,val) => {
-    e.preventDefault()
-    setPage(val)
-  }
 
   const handleChangeImage = (event) => {
     const file = event.target.files[0];
     const url = `http://localhost:3001/user/modifyUser/${id}`;
-    const image = new FileReader();
-
-    image.onload = async(event) => {
+    const reader = new FileReader();
+    if (!file) {
+      return;
+    }
+    reader.onload = async (event) => {
       const imgChange = event.target.result;
-      setPerfil({ ...perfil, image: imgChange })
-        if (perfil.image !== null) {
-          await axios.put(url, perfil)
-        }
-      ;
+      setPerfil({ ...perfil, image: imgChange });
+
+      try {
+        const response = await axios.put(url, { image: imgChange });
+        const updatedImage = response.data.user;
+        setPerfil({ ...perfil, image: updatedImage });
+        setImage(updatedImage);
+        dispatch(getUserData());
+        window.location.reload(true)
+      } catch (error) {
+        console.error("Error al cargar la imagen:", error);
+      }
     };
 
-    image.readAsDataURL(file);
-  }; 
-  
+    reader.readAsDataURL(file);
+  };
   return (
     <div className={styles.cont}>
       <div>
         <div className={styles.imgCont}>
-          <img src={perfil.image} alt="image" />
+          {image ? (
+            <img src={image} alt="imagen de perfil" />
+          ) : (
+            <Spinner animation="border" role="status" style={{position:"absolute", top:"38%", left:"36%"}}>
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
           <input type="file" name="image" onChange={handleChangeImage} />
           <HiPencilAlt className={styles.imageChange} />
         </div>
-        {perfil.name && <h2>{perfil.name}</h2>}
+        {perfil.name && <h2>{userData.name}</h2>}
       </div>
       <div className={styles.navCont}>
-        <button
-          className={styles.button}
-          onClick={(e) => handleChange(e, "direcciones")}
-        >
+        <Link className={styles.navLinks} to="/misDomicilios">
           Domicilios
-        </button>
-        <button
-          className={styles.button}
-          onClick={(e) => handleChange(e, "fav")}
-        >
+        </Link>
+        <Link className={styles.navLinks} to="/favoritos">
           Favoritos
-        </button>
-        <button
-          className={styles.button}
-          onClick={(e) => handleChange(e, "data")}
-        >
-          Mis datos
-        </button>
-        <button
-          className={styles.button}
-          onClick={(e) => handleChange(e, "compras")}
-        >
-          Mis compras
-        </button>
+        </Link>
+        <Link className={styles.navLinks} to="/misDatos">
+          Mis Datos
+        </Link>
+        <Link className={styles.navLinks} to="/misCompras">
+          Mis Compras
+        </Link>
         <button className={styles.button} onClick={logoutButton}>
           Salir
         </button>
@@ -88,4 +109,4 @@ const MiPerfilNav = ({ perfil, setPerfil,setPage,id }) => {
   );
 };
 
-export default MiPerfilNav
+export default MiPerfilNav;
