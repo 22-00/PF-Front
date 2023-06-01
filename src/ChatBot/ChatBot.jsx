@@ -25,7 +25,7 @@ const ChatBotOhana = () => {
   useEffect(() => {
     const imagenesBdd = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/products/imagen/todas');
+        const response = await axios.get('pf-back-production-b670.up.railway.app/products/imagen/todas');
         const imag = response.data.map(image => image);
         setImages(imag);
       } catch (error) {

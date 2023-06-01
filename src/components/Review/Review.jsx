@@ -27,7 +27,7 @@ const Review = ({datasXProduc,star}) =>{
     const fetchData = async () => {
       if (storedToken && registeredId) {
           await axios
-            .get(`http://localhost:3001/user/${userId}`)
+            .get(`pf-back-production-b670.up.railway.app/user/${userId}`)
               .then((response) => {
                 if (response) {
                     setPerfil(response.data);
@@ -53,7 +53,7 @@ const Review = ({datasXProduc,star}) =>{
             preConfirm: (login) => {
             if(star){
                 const reviewEdit = {"comment":login,"qualification":star};
-                axios.put(`http://localhost:3001/review/${registeredId}/${id}`,reviewEdit)
+                axios.put(`pf-back-production-b670.up.railway.app/review/${registeredId}/${id}`,reviewEdit)
                 Swal.fire(
                     'Good job!',
                     'Gracias por su nueva reseña',
@@ -83,7 +83,7 @@ const Review = ({datasXProduc,star}) =>{
     
 
     const handlerDelete = async() =>{
-        await axios.delete(`http://localhost:3001/review/${registeredId}/${id}`, )
+        await axios.delete(`pf-back-production-b670.up.railway.app/review/${registeredId}/${id}`, )
         .then((response) => {
             if(response){
             console.log(response);

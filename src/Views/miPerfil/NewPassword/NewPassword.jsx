@@ -68,7 +68,7 @@ const NewPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3001/user/modifyPassword/${id}`, password)
+            await axios.put(`pf-back-production-b670.up.railway.app/user/modifyPassword/${id}`, password)
                 
                 Swal.fire({
                     title: "Contraseña actualizada correctamente",

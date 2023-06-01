@@ -18,7 +18,7 @@ const EnviarEmail = () => {
   const handleSubmit = async (e) => {
    try {
      e.preventDefault();
-     await axios.post('http://localhost:3001/user/enviarMail',  email ).then((response) => { 
+     await axios.post('pf-back-production-b670.up.railway.app/user/enviarMail',  email ).then((response) => { 
       const mensaje = response.data.message 
       Swal.fire({
        title: mensaje,

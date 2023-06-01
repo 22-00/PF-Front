@@ -12,7 +12,7 @@ function Card({ product, favorite, pritotal, cantidad }) {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const { name, image, description, price, id } = product;
-  const URL = "http://localhost:3001/favoritos";
+  const URL = "pf-back-production-b670.up.railway.app/favoritos";
   const [isFav, setisFav] = useState(false);
 
 

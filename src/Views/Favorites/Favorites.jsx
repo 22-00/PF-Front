@@ -21,7 +21,7 @@ const Favorites = () => {
 
   const getFav = async () => {
     await axios
-      .get(`http://localhost:3001/favoritos/user/${userId}/products`)
+      .get(`pf-back-production-b670.up.railway.app/favoritos/user/${userId}/products`)
       .then((response) => {
         setFav(response.data);
       });

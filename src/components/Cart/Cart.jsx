@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, increaseQuantity, decreaseQuantity,emptyCart, getCart } from '../../redux/actions';
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
-import axios from "axios";
 
 const Cart = ({ isOpen, toggleCart, total }) => {
   const userId = localStorage.getItem("userId");

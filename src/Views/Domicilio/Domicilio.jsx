@@ -28,7 +28,7 @@ const Domicilio = () => {
   
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axios.post(`http://localhost:3001/Address/${userId}`, form)
+    await axios.post(`pf-back-production-b670.up.railway.app/Address/${userId}`, form)
     Navigate("/misDomicilios");
   };
 
